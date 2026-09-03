@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kampala, Uganda — City Sustainability Study / Исследование устойчивости города</title>
+<style>
+  :root{
+    --olive-dark:#4E5842; --olive:#758563; --olive-pale:#D8E0CE; --olive-mist:#ECF0E7;
+    --gold:#CEB966; --gold-dark:#9B8B4D; --gold-deep:#675D33; --cream:#F6F1E1;
+    --grey-100:#F2F2F2; --grey-200:#D9D9D9; --grey-500:#7F7F7F; --grey-700:#595959; --grey-900:#404040;
+    --danger:#B5573F; --blue:#4A90E2; --ink:#2B2F28;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--grey-100);font-family:'Segoe UI',-apple-system,Roboto,Arial,sans-serif;color:var(--ink);}
+  [data-lang="en"]{display:none !important;}
+  body.lang-en [data-lang="en"]{display:revert !important;}
+  body.lang-en [data-lang="ru"]{display:none !important;}
+
+  header{background:var(--olive-dark);color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;}
+  header .brand{display:flex;align-items:center;gap:12px;}
+  header img{width:38px;height:38px;}
+  header .t1{font-size:15px;font-weight:700;}
+  header .t2{font-size:11.5px;color:var(--olive-pale);}
+  #langBtn{background:var(--gold-dark);color:#fff;border:none;padding:7px 14px;border-radius:6px;font-size:12.5px;font-weight:600;cursor:pointer;}
+  #langBtn:hover{background:var(--gold-deep);}
+
+  .hero{position:relative;height:280px;overflow:hidden;background:linear-gradient(135deg,#4E5842,#2B2F28);}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.55));display:flex;flex-direction:column;justify-content:flex-end;padding:28px 32px;}
+  .hero .kicker{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--gold);font-weight:700;margin-bottom:6px;}
+  .hero h1{font-size:32px;margin:0;color:#fff;}
+  .hero .country{font-size:14px;color:#E4E9DD;margin-top:4px;}
+
+  .wrap{max-width:1160px;margin:0 auto;padding:36px 24px 70px;}
+
+  .attribution{
+    background:var(--olive-mist);border-left:4px solid var(--olive);border-radius:6px;
+    padding:14px 18px;font-size:12.5px;line-height:1.65;color:var(--grey-900);margin-bottom:34px;
+  }
+  .attribution b{color:var(--olive-dark);}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:38px;}
+  @media (max-width:820px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+  .kpi{background:#fff;border:1px solid var(--grey-200);border-radius:8px;padding:14px 16px;}
+  .kpi b{display:block;font-size:20px;color:var(--olive-dark);}
+  .kpi span{font-size:11px;color:var(--grey-700);line-height:1.4;display:block;margin-top:3px;}
+
+  .vision{background:#fff;border:1px solid var(--grey-200);border-radius:10px;padding:26px 30px;margin-bottom:34px;}
+  .vision h2{margin:0 0 10px;color:var(--olive-dark);font-size:20px;}
+  .vision p{margin:0;font-size:14px;line-height:1.7;color:var(--grey-900);max-width:880px;}
+
+  .rating-block{background:#fff;border:1px solid var(--grey-200);border-radius:10px;padding:28px 30px;margin-bottom:34px;display:grid;grid-template-columns:420px 1fr;gap:30px;align-items:center;}
+  @media (max-width:820px){.rating-block{grid-template-columns:1fr;}}
+  .rating-block h2{margin:0 0 4px;color:var(--olive-dark);font-size:18px;grid-column:1/-1;}
+  .rating-note{font-size:12px;color:var(--grey-500);grid-column:1/-1;margin-bottom:6px;}
+  .radar-legend{display:flex;flex-direction:column;gap:10px;}
+  .radar-legend .item{display:flex;justify-content:space-between;font-size:13px;padding:8px 12px;background:var(--grey-100);border-radius:6px;}
+  .radar-legend .item b{color:var(--olive-dark);}
+
+  .section{background:#fff;border:1px solid var(--grey-200);border-radius:10px;padding:26px 30px;margin-bottom:22px;}
+  .section-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;}
+  .section-head .num{font-size:12px;color:var(--gold-deep);font-weight:700;letter-spacing:.5px;}
+  .section-head h2{margin:0;font-size:19px;color:var(--olive-dark);}
+  .section-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:start;}
+  @media (max-width:860px){.section-grid{grid-template-columns:1fr;}}
+  .section p.body-text{font-size:13.5px;line-height:1.7;color:var(--grey-900);margin:0 0 14px;}
+  .goals h4{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--gold-deep);margin:0 0 8px;}
+  .goals ul{margin:0;padding-left:18px;}
+  .goals li{font-size:13px;line-height:1.55;color:var(--grey-700);margin-bottom:5px;}
+  .chart-box{display:flex;flex-direction:column;align-items:center;}
+  .chart-box svg{max-width:100%;height:auto;}
+  .chart-caption{font-size:11px;color:var(--grey-500);margin-top:8px;text-align:center;}
+  .donut-legend{display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:center;margin-top:10px;font-size:11px;}
+  .donut-legend span{display:inline-flex;align-items:center;gap:5px;color:var(--grey-700);}
+  .sw{width:10px;height:10px;border-radius:2px;display:inline-block;}
+
+  footer{max-width:1160px;margin:0 auto;padding:0 24px 60px;font-size:11.5px;color:var(--grey-500);line-height:1.7;}
+  footer h3{font-size:12px;color:var(--grey-700);margin:0 0 6px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="data:image/png;base64,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" alt="DOMA logo">
+    <div>
+      <div class="t1" data-lang="ru">ДОМА · Портфолио</div>
+      <div class="t1" data-lang="en">DOMA · Portfolio</div>
+      <div class="t2" data-lang="ru">Исследование устойчивости города</div>
+      <div class="t2" data-lang="en">City Sustainability Study</div>
+    </div>
+  </div>
+  <button id="langBtn" onclick="toggleLang()">EN / RU</button>
+</header>
+
+<div class="hero">
+  <div class="hero-overlay">
+    <div class="kicker" data-lang="ru">TU Munich, WiSe 2021/22</div>
+    <div class="kicker" data-lang="en">TU Munich, WiSe 2021/22</div>
+    <h1>Kampala</h1>
+    <div class="country">Uganda / Уганда</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="kpi-grid">
+    <div class="kpi"><b data-lang="ru">1 680 000</b><b data-lang="en">1,680,000</b><span data-lang="ru">население, прогноз 2020 г.</span><span data-lang="en">population, 2020 projection</span></div>
+    <div class="kpi"><b data-lang="ru">9 352 / км²</b><b data-lang="en">9,352 / km²</b><span data-lang="ru">плотность населения (2020)</span><span data-lang="en">population density (2020)</span></div>
+    <div class="kpi"><b data-lang="ru">2 655 $</b><b data-lang="en">$2,655</b><span data-lang="ru">ВВП/доход на душу (низкий уровень)</span><span data-lang="en">income per capita (low classification)</span></div>
+    <div class="kpi"><b data-lang="ru">0,63 Земли</b><b data-lang="en">0.63 Earths</b><span data-lang="ru">экологический след (2017)</span><span data-lang="en">ecological footprint (2017)</span></div>
+    <div class="kpi"><b data-lang="ru">61 / 65,6 лет</b><b data-lang="en">61 / 65.6 years</b><span data-lang="ru">ожид. продолж. жизни, м/ж</span><span data-lang="en">life expectancy, m/f</span></div>
+    <div class="kpi"><b data-lang="ru">76,5%</b><b data-lang="en">76.5%</b><span data-lang="ru">уровень грамотности</span><span data-lang="en">literacy rate</span></div>
+    <div class="kpi"><b>119 / 156</b><span data-lang="ru">место в рейтинге счастья</span><span data-lang="en">happiness ranking</span></div>
+    <div class="kpi"><b>Am</b><span data-lang="ru">климат (Кёппен) — тропич. муссонный</span><span data-lang="en">climate (Köppen) — tropical monsoon</span></div>
+  </div>
+
+  <div class="vision">
+    <h2 data-lang="ru">Видение — рост как возможность построить город для всех</h2>
+    <h2 data-lang="en">Vision — Embracing Growth to Create a City for Everyone</h2>
+    <p data-lang="ru">Кампала — один из самых быстрорастущих городов Африки, ещё не раскрывший весь свой потенциал. Цель — подготовить город к росту и повысить качество жизни уже сейчас, используя рост как возможность переосмыслить существующие структуры и построить новые, поднимая стандарт для всех нынешних и будущих жителей.</p>
+    <p data-lang="en">Kampala is one of the fastest-growing cities in Africa, yet to reach its full potential. The aim is to prepare the city for its growth and improve the current quality of life — using growth as an opportunity to rethink existing structures and build new ones, raising the standard for all current and future citizens.</p>
+  </div>
+
+  <div class="rating-block">
+    <h2 data-lang="ru">Рейтинг устойчивости (0–5)</h2>
+    <h2 data-lang="en">Sustainability Rating (0–5)</h2>
+    <div class="rating-note" data-lang="ru">Комплексная оценка по 6 направлениям на основе международных бенчмарков по каждому индикатору</div>
+    <div class="rating-note" data-lang="en">Composite score across 6 domains, benchmarked against international indicator ranges</div>
+
+    <div class="chart-box">
+      <svg viewBox="0 0 400 400" width="380" height="380">
+        <polygon points="200.0,50.0 329.9,125.0 329.9,275.0 200.0,350.0 70.1,275.0 70.1,125.0" fill="none" stroke="#D9D9D9" stroke-width="1"/>
+        <polygon points="200.0,80.0 303.9,140.0 303.9,260.0 200.0,320.0 96.1,260.0 96.1,140.0" fill="none" stroke="#D9D9D9" stroke-width="1"/>
+        <polygon points="200.0,110.0 277.9,155.0 277.9,245.0 200.0,290.0 122.1,245.0 122.1,155.0" fill="none" stroke="#D9D9D9" stroke-width="1"/>
+        <polygon points="200.0,140.0 252.0,170.0 252.0,230.0 200.0,260.0 148.0,230.0 148.0,170.0" fill="none" stroke="#D9D9D9" stroke-width="1"/>
+        <polygon points="200.0,170.0 226.0,185.0 226.0,215.0 200.0,230.0 174.0,215.0 174.0,185.0" fill="none" stroke="#D9D9D9" stroke-width="1"/>
+        <line x1="200" y1="200" x2="200.0" y2="50.0" stroke="#D9D9D9"/>
+        <line x1="200" y1="200" x2="329.9" y2="125.0" stroke="#D9D9D9"/>
+        <line x1="200" y1="200" x2="329.9" y2="275.0" stroke="#D9D9D9"/>
+        <line x1="200" y1="200" x2="200.0" y2="350.0" stroke="#D9D9D9"/>
+        <line x1="200" y1="200" x2="70.1" y2="275.0" stroke="#D9D9D9"/>
+        <line x1="200" y1="200" x2="70.1" y2="125.0" stroke="#D9D9D9"/>
+        <polygon points="200.0,106.2 239.0,177.5 273.6,242.5 200.0,248.8 138.3,235.6 138.3,164.4" fill="#758563" fill-opacity="0.45" stroke="#4E5842" stroke-width="2.5"/>
+        <text x="200" y="30" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="en">Urban Planning</text>
+        <text x="200" y="24" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="ru">Городское</text>
+        <text x="200" y="37" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="ru">планирование</text>
+        <text x="200" y="43" text-anchor="middle" font-size="12" fill="#4E5842" font-weight="700" data-lang="en">3.13</text>
+        <text x="200" y="50" text-anchor="middle" font-size="12" fill="#4E5842" font-weight="700" data-lang="ru">3.13</text>
+        <text x="358" y="105" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="en">Green</text>
+        <text x="358" y="119" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="en">Infrastructure</text>
+        <text x="348" y="105" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="ru">Зелёная</text>
+        <text x="348" y="119" text-anchor="middle" font-size="12.5" fill="#404040" font-weight="600" data-lang="ru">инфраструктура</text>
+        <text x="358" y="132" text-anchor="middle" font-size="12" fill="#4E5842" font-weight="700">1.50</text>
+        <text x="358" y="298" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="en">Mobility</text>
+        <text x="358" y="298" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="ru">Мобильность</text>
+        <text x="358" y="311" text-anchor="middle" font-size="12" fill="#4E5842" font-weight="700">2.83</text>
+        <text x="200" y="378" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="en">Water</text>
+        <text x="200" y="378" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="ru">Вода</text>
+        <text x="200" y="391" text-anchor="middle" font-size="12" fill="#4E5842" font-weight="700">1.63</text>
+        <text x="42" y="298" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="en">Energy</text>
+        <text x="42" y="298" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="ru">Энергия</text>
+        <text x="42" y="311" text-anchor="middle" font-size="12" fill="#4E5842" font-weight="700">2.38</text>
+        <text x="42" y="105" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="en">Waste</text>
+        <text x="42" y="105" text-anchor="middle" font-size="13" fill="#404040" font-weight="600" data-lang="ru">Отходы</text>
+        <text x="42" y="119" text-anchor="middle" font-size="12" fill="#4E5842" font-weight="700">2.38</text>
+      </svg>
+    </div>
+
+    <div class="radar-legend">
+      <div class="item"><span data-lang="ru">Городское планирование</span><span data-lang="en">Urban Planning</span><b>3.13 / 5</b></div>
+      <div class="item"><span data-lang="ru">Мобильность</span><span data-lang="en">Mobility</span><b>2.83 / 5</b></div>
+      <div class="item"><span data-lang="ru">Отходы</span><span data-lang="en">Waste</span><b>2.38 / 5</b></div>
+      <div class="item"><span data-lang="ru">Энергия</span><span data-lang="en">Energy</span><b>2.38 / 5</b></div>
+      <div class="item"><span data-lang="ru">Вода</span><span data-lang="en">Water</span><b>1.63 / 5</b></div>
+      <div class="item"><span data-lang="ru">Зелёная инфраструктура</span><span data-lang="en">Green Infrastructure</span><b>1.50 / 5</b></div>
+    </div>
+  </div>
+
+  <!-- 01 URBAN PLANNING -->
+  <div class="section">
+    <div class="section-head"><span class="num">01</span><h2 data-lang="ru">Городское планирование</h2><h2 data-lang="en">Urban Planning</h2></div>
+    <div class="section-grid">
+      <div>
+        <p class="body-text" data-lang="ru">Свыше 60% населения Кампалы живёт в неформальных поселениях. Причины — быстрый рост города и смена земельного законодательства Уганды (дважды за последние 50 лет), что породило неоднозначность в правах собственности и способствовало нерегулируемой застройке.</p>
+        <p class="body-text" data-lang="en">Over 60% of Kampala's population lives in informal settlements. Reasons include the city's fast growth and Uganda's changing land tenure system (altered twice in the last fifty years), creating ambiguity in land ownership and enabling unregulated, undocumented land use.</p>
+        <div class="goals">
+          <h4 data-lang="ru">Цели и действия</h4><h4 data-lang="en">Goals & Actions</h4>
+          <ul>
+            <li data-lang="ru">Структуризация и документирование прав землевладения</li><li data-lang="en">Structuring and documenting land tenure</li>
+            <li data-lang="ru">Закрепление прав на землю за жителями — ответственность через собственность</li><li data-lang="en">Give people land security and responsibility for their land</li>
+            <li data-lang="ru">Определение зон под инфраструктуру</li><li data-lang="en">Define areas for built-up infrastructure</li>
+            <li data-lang="ru">Поддержка строительства безопасного доступного жилья</li><li data-lang="en">Support secure, affordable housing construction</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chart-box">
+        <svg viewBox="0 0 340 220" width="100%" height="auto">
+          <text x="170" y="14" text-anchor="middle" font-size="11" fill="#595959" data-lang="ru">Население по возрасту и полу (2019)</text>
+          <text x="170" y="14" text-anchor="middle" font-size="11" fill="#595959" data-lang="en">Population by age and gender (2019)</text>
+          <line x1="170" y1="25" x2="170" y2="205" stroke="#D9D9D9"/>
+          <!-- bars: female left (olive), male right (gold) -->
+          <g font-size="9.5" fill="#595959">
+            <text x="170" y="42" text-anchor="middle" font-weight="700">0–9</text>
+            <rect x="96.7" y="28" width="73.3" height="14" fill="#758563"/>
+            <rect x="170" y="28" width="78.5" height="14" fill="#CEB966"/>
+            <text x="170" y="68" text-anchor="middle" font-weight="700">10–19</text>
+            <rect x="97.0" y="54" width="73.0" height="14" fill="#758563"/>
+            <rect x="170" y="54" width="55.3" height="14" fill="#CEB966"/>
+            <text x="170" y="94" text-anchor="middle" font-weight="700">20–39</text>
+            <rect x="30.0" y="80" width="140.0" height="14" fill="#758563"/>
+            <rect x="170" y="80" width="119.0" height="14" fill="#CEB966"/>
+            <text x="170" y="120" text-anchor="middle" font-weight="700">40–59</text>
+            <rect x="143.4" y="106" width="26.6" height="14" fill="#758563"/>
+            <rect x="170" y="106" width="28.7" height="14" fill="#CEB966"/>
+            <text x="170" y="146" text-anchor="middle" font-weight="700">60+</text>
+            <rect x="163.5" y="132" width="6.5" height="14" fill="#758563"/>
+            <rect x="170" y="132" width="5.2" height="14" fill="#CEB966"/>
+          </g>
+          <g font-size="10">
+            <rect x="60" y="185" width="10" height="10" fill="#758563"/><text x="74" y="194" fill="#595959" data-lang="ru">женщины</text><text x="74" y="194" fill="#595959" data-lang="en">female</text>
+            <rect x="230" y="185" width="10" height="10" fill="#CEB966"/><text x="244" y="194" fill="#595959" data-lang="ru">мужчины</text><text x="244" y="194" fill="#595959" data-lang="en">male</text>
+          </g>
+        </svg>
+        <div class="chart-caption" data-lang="ru">Всего в разбивке: ~1,51 млн чел. (2019); ~65% моложе 20 лет</div>
+        <div class="chart-caption" data-lang="en">Total in breakdown: ~1.51M (2019); ~65% under age 20</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 GREEN INFRASTRUCTURE -->
+  <div class="section">
+    <div class="section-head"><span class="num">02</span><h2 data-lang="ru">Зелёная инфраструктура</h2><h2 data-lang="en">Green Infrastructure</h2></div>
+    <div class="section-grid">
+      <div>
+        <p class="body-text" data-lang="ru">Зелёная инфраструктура играет важную роль в устойчивом развитии города. В Кампале её качество низкое: зелёные зоны — 12%, водные объекты — 8%. Быстрый рост населения и застройка вне плана привели к застройке парков и водно-болотных угодий частными девелоперами.</p>
+        <p class="body-text" data-lang="en">Green infrastructure (GI) plays an important role in sustainable development. Kampala has low-quality GI: 12% green area, 8% blue area. Rapid population growth and off-plan property development have led private developers to encroach on public parks and wetlands.</p>
+        <div class="goals">
+          <h4 data-lang="ru">Цели и действия</h4><h4 data-lang="en">Goals & Actions</h4>
+          <ul>
+            <li data-lang="ru">Озеленение существующих парков и частных территорий</li><li data-lang="en">Greening existing parks and private properties</li>
+            <li data-lang="ru">Развитие агроуправления (рыбоводство, промысел моллюсков)</li><li data-lang="en">Develop agricultural management (fish farming, shellfish, etc.)</li>
+            <li data-lang="ru">Разграничение прав на землю и водно-болотные угодья</li><li data-lang="en">Delimitation of rights to land and wetlands</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chart-box">
+        <svg viewBox="0 0 200 230" width="220" height="253">
+          <path d="M 100.00,15.00 A 85,85 0 1 1 19.16,73.73 L 54.35,85.17 A 48,48 0 1 0 100.00,52.00 Z" fill="#4E5842"/>
+          <path d="M 19.16,73.73 A 85,85 0 0 1 59.05,25.51 L 76.88,57.94 A 48,48 0 0 0 54.35,85.17 Z" fill="#758563"/>
+          <path d="M 59.05,25.51 A 85,85 0 0 1 100.00,15.00 L 100.00,52.00 A 48,48 0 0 0 76.88,57.94 Z" fill="#4A90E2"/>
+        </svg>
+        <div class="donut-legend">
+          <span><i class="sw" style="background:#4E5842"></i><span data-lang="ru">Застроено — 80%</span><span data-lang="en">Built-up — 80%</span></span>
+          <span><i class="sw" style="background:#758563"></i><span data-lang="ru">Зелёные зоны — 12%</span><span data-lang="en">Green — 12%</span></span>
+          <span><i class="sw" style="background:#4A90E2"></i><span data-lang="ru">Вода — 8%</span><span data-lang="en">Blue (water) — 8%</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 MOBILITY -->
+  <div class="section">
+    <div class="section-head"><span class="num">03</span><h2 data-lang="ru">Мобильность</h2><h2 data-lang="en">Mobility</h2></div>
+    <div class="section-grid">
+      <div>
+        <p class="body-text" data-lang="ru">Город сильно зависит от старых автомобилей, загрязняющих воздух. Дорожная сеть не справляется с транспортным потоком, что приводит к заторам — при почти полном отсутствии формального общественного транспорта. Основная причина ДТП — неформальные способы перевозки.</p>
+        <p class="body-text" data-lang="en">There is heavy dependency on old vehicles contributing to air pollution. The road network cannot handle traffic flow, causing congestion, alongside the near-absence of formal transport. Informal transport methods are the main cause of traffic accidents.</p>
+        <div class="goals">
+          <h4 data-lang="ru">Цели и действия</h4><h4 data-lang="en">Goals & Actions</h4>
+          <ul>
+            <li data-lang="ru">Программы безопасности для снижения ДТП</li><li data-lang="en">Safety plans to reduce traffic fatalities</li>
+            <li data-lang="ru">Поддержка устойчивых видов транспорта</li><li data-lang="en">Encourage sustainable transport methods</li>
+            <li data-lang="ru">Модернизация инфраструктуры для снижения заторов</li><li data-lang="en">Upgrade infrastructure to reduce congestion</li>
+            <li data-lang="ru">Замена устаревшего автопарка</li><li data-lang="en">Replace old, high-emission vehicles</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chart-box">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <path d="M 100.00,15.00 A 85,85 0 0 1 115.93,16.51 L 108.99,52.85 A 48,48 0 0 0 100.00,52.00 Z" fill="#758563"/>
+          <path d="M 115.93,16.51 A 85,85 0 0 1 145.55,28.23 L 125.72,59.47 A 48,48 0 0 0 108.99,52.85 Z" fill="#CEB966"/>
+          <path d="M 145.55,28.23 A 85,85 0 0 1 180.84,73.73 L 145.65,85.17 A 48,48 0 0 0 125.72,59.47 Z" fill="#9B8B4D"/>
+          <path d="M 180.84,73.73 A 85,85 0 0 1 180.84,126.27 L 145.65,114.83 A 48,48 0 0 0 145.65,85.17 Z" fill="#4E5842"/>
+          <path d="M 180.84,126.27 A 85,85 0 0 1 179.03,131.29 L 144.63,117.67 A 48,48 0 0 0 145.65,114.83 Z" fill="#675D33"/>
+          <path d="M 179.03,131.29 A 85,85 0 0 1 20.97,68.71 L 55.37,82.33 A 48,48 0 0 0 144.63,117.67 Z" fill="#B5573F"/>
+          <path d="M 20.97,68.71 A 85,85 0 0 1 100.00,15.00 L 100.00,52.00 A 48,48 0 0 0 55.37,82.33 Z" fill="#B5C4A8"/>
+        </svg>
+        <div class="donut-legend">
+          <span><i class="sw" style="background:#B5573F"></i><span data-lang="ru">Бода-бода (мототакси) — 50%</span><span data-lang="en">Boda Boda (moto-taxi) — 50%</span></span>
+          <span><i class="sw" style="background:#B5C4A8"></i><span data-lang="ru">Легковой транспорт — 19%</span><span data-lang="en">Car — 19%</span></span>
+          <span><i class="sw" style="background:#9B8B4D"></i><span data-lang="ru">Микроавтобусы — 11%</span><span data-lang="en">Mini buses — 11%</span></span>
+          <span><i class="sw" style="background:#4E5842"></i><span data-lang="ru">Пикапы/внедорожники — 10%</span><span data-lang="en">Pick-up vans/4WD — 10%</span></span>
+          <span><i class="sw" style="background:#CEB966"></i><span data-lang="ru">Грузовики/автобусы — 6%</span><span data-lang="en">Trucks & bus — 6%</span></span>
+          <span><i class="sw" style="background:#758563"></i><span data-lang="ru">Пешком — 3%</span><span data-lang="en">Walking — 3%</span></span>
+          <span><i class="sw" style="background:#675D33"></i><span data-lang="ru">С/х трактора — 1%</span><span data-lang="en">Agric. tractors — 1%</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 ENERGY -->
+  <div class="section">
+    <div class="section-head"><span class="num">04</span><h2 data-lang="ru">Энергия</h2><h2 data-lang="en">Energy</h2></div>
+    <div class="section-grid">
+      <div>
+        <p class="body-text" data-lang="ru">Почти вся энергия, потребляемая Кампалой, производится за пределами её территории. У страны богатые возобновляемые источники, но большинство не используется из-за технических и финансовых рисков. Более двух третей населения не имеет доступа к электричеству.</p>
+        <p class="body-text" data-lang="en">Almost all energy consumed by Kampala is produced outside its territory. The country has rich renewable sources, but most remain untapped due to technical and financial risk. Over two-thirds of the population has no access to electricity.</p>
+        <div class="goals">
+          <h4 data-lang="ru">Цели и действия</h4><h4 data-lang="en">Goals & Actions</h4>
+          <ul>
+            <li data-lang="ru">Получение энергии из отходов (анаэробное сбраживание)</li><li data-lang="en">Energy recovery from waste via anaerobic digestion</li>
+            <li data-lang="ru">Рост доли ВИЭ (солнце, ветер)</li><li data-lang="en">Increase renewable sources (solar, wind)</li>
+            <li data-lang="ru">Повышение доступа к электричеству, снижение выбросов</li><li data-lang="en">Improve electricity access, reduce GHG emissions</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chart-box">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <path d="M 100.00,15.00 A 85,85 0 1 1 73.73,19.16 L 85.17,54.35 A 48,48 0 1 0 100.00,52.00 Z" fill="#B5573F"/>
+          <path d="M 73.73,19.16 A 85,85 0 0 1 84.07,16.51 L 91.01,52.85 A 48,48 0 0 0 85.17,54.35 Z" fill="#CEB966"/>
+          <path d="M 84.07,16.51 A 85,85 0 0 1 100.00,15.00 L 100.00,52.00 A 48,48 0 0 0 91.01,52.85 Z" fill="#758563"/>
+        </svg>
+        <div class="donut-legend">
+          <span><i class="sw" style="background:#B5573F"></i><span data-lang="ru">Нефть — 95%</span><span data-lang="en">Oil — 95%</span></span>
+          <span><i class="sw" style="background:#758563"></i><span data-lang="ru">ВИЭ — 3%</span><span data-lang="en">Renewables — 3%</span></span>
+          <span><i class="sw" style="background:#CEB966"></i><span data-lang="ru">Газ — 2%</span><span data-lang="en">Gas — 2%</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 WATER -->
+  <div class="section">
+    <div class="section-head"><span class="num">05</span><h2 data-lang="ru">Вода</h2><h2 data-lang="en">Water</h2></div>
+    <div class="section-grid">
+      <div>
+        <p class="body-text" data-lang="ru">Обильные дожди в сезон приводят к частым паводкам с высокими экономическими и социальными издержками. Доступ к безопасной питьевой воде ограничен, особенно в неформальных поселениях — среднее потребление всего 16 л/сутки на человека. Недостаточная канализация и выгребные ямы приводят к загрязнению воды.</p>
+        <p class="body-text" data-lang="en">Heavy seasonal rainfall causes frequent flash floods with high economic and social costs. Access to safe piped water is limited, especially in informal settlements — average consumption is just 16 L/day per capita. Insufficient sewage and reliance on pit latrines cause water contamination.</p>
+        <div class="goals">
+          <h4 data-lang="ru">Цели и действия</h4><h4 data-lang="en">Goals & Actions</h4>
+          <ul>
+            <li data-lang="ru">Комплексное управление паводками, расширение резервуаров</li><li data-lang="en">Integrated flood management, expanding retention areas</li>
+            <li data-lang="ru">Инвестиции в водопровод и реформа льготного тарифа</li><li data-lang="en">Investment in piping and pro-poor tariff reform</li>
+            <li data-lang="ru">Доступ к санитарии и очистке сточных вод</li><li data-lang="en">Access to sanitation and wastewater treatment</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chart-box">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <path d="M 100.00,15.00 A 85,85 0 0 1 161.96,158.19 L 134.99,132.86 A 48,48 0 0 0 100.00,52.00 Z" fill="#4A90E2"/>
+          <path d="M 161.96,158.19 A 85,85 0 0 1 17.67,121.14 L 53.51,111.94 A 48,48 0 0 0 134.99,132.86 Z" fill="#758563"/>
+          <path d="M 17.67,121.14 A 85,85 0 0 1 16.51,115.93 L 52.85,108.99 A 48,48 0 0 0 53.51,111.94 Z" fill="#CEB966"/>
+          <path d="M 16.51,115.93 A 85,85 0 0 1 100.00,15.00 L 100.00,52.00 A 48,48 0 0 0 52.85,108.99 Z" fill="#4E5842"/>
+        </svg>
+        <div class="donut-legend">
+          <span><i class="sw" style="background:#4A90E2"></i><span data-lang="ru">Поверхностные воды — 37%</span><span data-lang="en">Surface water — 37%</span></span>
+          <span><i class="sw" style="background:#758563"></i><span data-lang="ru">Подземные воды — 34%</span><span data-lang="en">Groundwater — 34%</span></span>
+          <span><i class="sw" style="background:#4E5842"></i><span data-lang="ru">Прочее — 28%</span><span data-lang="en">Others — 28%</span></span>
+          <span><i class="sw" style="background:#CEB966"></i><span data-lang="ru">Дождевая вода — 1%</span><span data-lang="en">Rainwater — 1%</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 WASTE -->
+  <div class="section">
+    <div class="section-head"><span class="num">06</span><h2 data-lang="ru">Отходы</h2><h2 data-lang="en">Waste</h2></div>
+    <div class="section-grid">
+      <div>
+        <p class="body-text" data-lang="ru">Система обращения с отходами в Кампале неэффективна: собирается лишь 40% образующегося мусора, остальное выбрасывается на улицы, в реки, загрязняя воду. Основная часть собранных отходов вывозится на единственный полигон за пределами города.</p>
+        <p class="body-text" data-lang="en">Solid waste management is inefficient — only 40% of generated waste is collected, with the rest dumped on streets and in rivers, polluting water systems. Most collected waste goes to the only landfill, located outside the city.</p>
+        <div class="goals">
+          <h4 data-lang="ru">Цели и действия</h4><h4 data-lang="en">Goals & Actions</h4>
+          <ul>
+            <li data-lang="ru">Модернизация полигона и сортировки отходов</li><li data-lang="en">Upgrade the landfill and waste-sorting facilities</li>
+            <li data-lang="ru">Информирование населения для снижения несобираемого мусора</li><li data-lang="en">Public awareness to reduce uncollected waste</li>
+            <li data-lang="ru">Получение энергии из переработки органических отходов</li><li data-lang="en">Generate energy from organic waste conversion</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chart-box">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <path d="M 100.00,15.00 A 85,85 0 0 1 180.84,73.73 L 145.65,85.17 A 48,48 0 0 0 100.00,52.00 Z" fill="#758563"/>
+          <path d="M 180.84,73.73 A 85,85 0 0 1 184.83,94.66 L 147.91,96.99 A 48,48 0 0 0 145.65,85.17 Z" fill="#4E5842"/>
+          <path d="M 184.83,94.66 A 85,85 0 0 1 16.51,115.93 L 52.85,108.99 A 48,48 0 0 0 147.91,96.99 Z" fill="#B5573F"/>
+          <path d="M 16.51,115.93 A 85,85 0 0 1 23.09,63.81 L 56.57,79.56 A 48,48 0 0 0 52.85,108.99 Z" fill="#CEB966"/>
+          <path d="M 23.09,63.81 A 85,85 0 0 1 41.81,38.04 L 67.14,65.01 A 48,48 0 0 0 56.57,79.56 Z" fill="#9B8B4D"/>
+          <path d="M 41.81,38.04 A 85,85 0 0 1 100.00,15.00 L 100.00,52.00 A 48,48 0 0 0 67.14,65.01 Z" fill="#7F7F7F"/>
+        </svg>
+        <div class="donut-legend">
+          <span><i class="sw" style="background:#B5573F"></i><span data-lang="ru">Открытые свалки — 48%</span><span data-lang="en">Open dump — 48%</span></span>
+          <span><i class="sw" style="background:#758563"></i><span data-lang="ru">Компостирование — 20%</span><span data-lang="en">Composting — 20%</span></span>
+          <span><i class="sw" style="background:#7F7F7F"></i><span data-lang="ru">Не собирается — 12%</span><span data-lang="en">Non-collected — 12%</span></span>
+          <span><i class="sw" style="background:#CEB966"></i><span data-lang="ru">Повторное использование — 10%</span><span data-lang="en">Reuse — 10%</span></span>
+          <span><i class="sw" style="background:#9B8B4D"></i><span data-lang="ru">Переработка — 6%</span><span data-lang="en">Recycling — 6%</span></span>
+          <span><i class="sw" style="background:#4E5842"></i><span data-lang="ru">Санитарный полигон — 4%</span><span data-lang="en">Sanitary landfill — 4%</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <h3 data-lang="ru">Источники и методология</h3>
+  <h3 data-lang="en">Sources & Methodology</h3>
+  <p data-lang="ru">Постер «Kampala, Uganda» — семинар «Sustainable Architecture, Urban and Landscape Planning», Технический университет Мюнхена (TUM), Institute of Energy Efficient and Sustainable Design and Building, рук. Prof. Dr.-Ing. Werner Lang, зимний семестр 2021/22. Данные по 9 диаграммам постера и рейтингу устойчивости (18 индикаторов по 6 направлениям, шкала 0–5 на основе международных бенчмарков) взяты из рабочего файла авторов (версия от 08.11.2021). Полный список из 10 первичных источников — по QR-коду на оригинальном постере. Оформление и вёрстка этой страницы — «ДОМА», на основе исходных материалов проекта, с сохранением авторства и указанием академического происхождения кейса.</p>
+  <p data-lang="en">Poster "Kampala, Uganda" — seminar "Sustainable Architecture, Urban and Landscape Planning", Technical University of Munich (TUM), Institute of Energy Efficient and Sustainable Design and Building, led by Prof. Dr.-Ing. Werner Lang, Winter Semester 2021/22. Data for the poster's 9 charts and the sustainability rating (18 indicators across 6 domains, 0–5 scale benchmarked internationally) is taken from the authors' working file (version dated 08.11.2021). The full list of 10 primary sources is available via the QR code on the original poster. Layout and design of this page by "DOMA", based on the original project materials, with authorship preserved and academic origin disclosed.</p>
+</footer>
+
+<script>
+function toggleLang(){
+  document.body.classList.toggle('lang-en');
+}
+</script>
+</body>
+</html>
